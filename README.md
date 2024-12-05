@@ -4,32 +4,27 @@ Ether.jl is a Julia package designed to bridge it's scientific computing capabil
 
 ## Usage 
 
+### Connect to an Ethereum Node
+
 ```julia
-using .Types
+using ERC20
 
-# Define an AMM contract
-amm = AMM(
-    address = Address("0xYourAMMContractAddress"),
-    abi = """[
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "getReserves",
-            "outputs": [
-                {"name": "reserveA", "type": "uint112"},
-                {"name": "reserveB", "type": "uint112"}
-            ],
-            "type": "function"
-        }
-    ]""",
-    tokenA = Address("0xTokenAAddress"),
-    tokenB = Address("0xTokenBAddress")
-)
-
-# Interact with the AMM (using your web3 or other interface functions)
-println("AMM address: ", amm.address.value)
-println("Token A: ", amm.tokenA.value)
-println("Token B: ", amm.tokenB.value)
+# Connect to an Ethereum node and ERC-20 contract
+connection = ERC20.ERC20Connection("http://localhost:8545", "0xYourTokenAddress")
 ```
+### Retrieve Token Balance
+
+```julia
+balance = ERC20.get_balance(connection, "0xYourWalletAddress")
+println("Token Balance: $balance")
+```
+
+### Transfer Tokens
+
+```julia
+result = ERC20.transfer_tokens(connection, "0xSenderAddress", "privateKey", "0xReceiverAddress", 100)
+println(result)
+```
+
 
 
